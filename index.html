@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <meta charset="UTF-8">
+    <title>TRAINS</title>
+    <!--Boot straps and  Jqueries link-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <!-- Added Moment JS -->
+    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="jumbotron">
+            <h1 class="text-center">Trains</h1>
+            <h3 class="text-center">180 SECONDS TRAINS</h3>
+        </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><strong>Train DEPARTURE</strong></h3>
+                        </div>
+                        <div class="panel-body">
+                        <table class="table table-stripped" id="trains">
+                            <thead>
+                                <tr>
+                                    <th>Train Name</th>
+                                    <th>Destination</th>
+                                    <th>Frquency</th>
+                                    <th>Next Arrival</th>
+                                    <th>Minutes Away</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Add Train</strong></h3>
+                    </div>
+
+
+                    <div id="form-center">
+
+                        <form role="form">
+                            <div class="form-group">
+
+                                <span>
+                            <label for="train name">Train Name</label>
+                            <input type="text" size="25"class = "form-control" id="trainName">
+                        </span>
+                            </div>
+                        
+                            <div class="form-group">
+                                <label for="destination">Destiation<br></label>
+                                <input type="text" size="25" class="form-control" id="trainName">
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="first-train">1st Train (HH:MM-Military Time)</label>
+                                <input type="text" size="5" class="form-control" id="firstTime">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="frequency">Frequency (Min)</label>                                        <input type="text" size="5" class="form-control" id="frequency">
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+                                <script>
+                                // Assume the following situations.
+
+                                // (TEST 1)
+                                // First Train of the Day is 3:00 AM
+                                // Assume Train comes every 3 minutes.
+                                // Assume the current time is 3:16 AM....
+                                // What time would the next train be...? (Use your brain first)
+                                // It would be 3:18 -- 2 minutes away
+
+                                // (TEST 2)
+                                // First Train of the Day is 3:00 AM
+                                // Assume Train comes every 7 minutes.
+                                // Assume the current time is 3:16 AM....
+                                // What time would the next train be...? (Use your brain first)
+                                // It would be 3:21 -- 5 minutes away
+
+
+                                // ==========================================================
+
+                                // Solved Mathematically
+                                // Test case 1:
+                                // 16 - 00 = 16
+                                // 16 % 3 = 1 (Modulus is the remainder)
+                                // 3 - 1 = 2 minutes away
+                                // 2 + 3:16 = 3:18
+
+                                // Solved Mathematically
+                                // Test case 2:
+                                // 16 - 00 = 16
+                                // 16 % 7 = 2 (Modulus is the remainder)
+                                // 7 - 2 = 5 minutes away
+                                // 5 + 3:16 = 3:21
+
+                                // Assumptions
+                                var tFrequency = 3;
+
+                                // Time is 3:30 AM
+                                var firstTime = "03:30";
+
+                                // First Time (pushed back 1 year to make sure it comes before current time)
+                                var firstTimeConverted = moment(firstTime, "hh:mm").subtract(1, "years");
+                                console.log(firstTimeConverted);
+
+                                // Current Time
+                                var currentTime = moment();
+                                console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
+
+                                // Difference between the times
+                                var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+                                console.log("DIFFERENCE IN TIME: " + diffTime);
+
+                                // Time apart (remainder)
+                                var tRemainder = diffTime % tFrequency;
+                                console.log(tRemainder);
+
+                                // Minute Until Train
+                                var tMinutesTillTrain = tFrequency - tRemainder;
+                                console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
+
+                                // Next Train
+                                var nextTrain = moment().add(tMinutesTillTrain, "minutes");
+                                console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+                                </script>
+</body>
+
+</html>
